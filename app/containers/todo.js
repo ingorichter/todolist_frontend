@@ -51,6 +51,7 @@ class Todo extends Component {
 
   render() {
     const { todo } = this.props
+    const priorityLabel = todo.isPriority ? <span className="label label-danger">Priority</span> : <span></span>
 
     return (
       <ListGroupItem className="clearfix" key={todo.id}>
@@ -59,11 +60,14 @@ class Todo extends Component {
             <Col xs={1} sm={1}>
               <input type="checkbox" checked={todo.completed} onChange={this.handleCheck} />
             </Col>
+            <Col xs={1} sm={1}>
+                {priorityLabel}
+            </Col>
             <Col xs={10} sm={8}>
               {this.renderSubject()}
               <small>{this.formatDue(todo.due)}</small>
             </Col>
-            <Col xs={12} sm={3}>
+            <Col xs={12} sm={2}>
               <TodoActions todo={this.props.todo} />
             </Col>
           </Row>

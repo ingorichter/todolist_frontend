@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Modal, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
+import { Modal, FormGroup, ControlLabel, FormControl, Button, Checkbox } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import DatePicker from 'react-bootstrap-date-picker'
 import moment from 'moment'
@@ -16,12 +16,15 @@ class EditTodoModal extends Component {
     }
   }
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.onSubjectChange = this.onSubjectChange.bind(this)
     this.onDueChange = this.onDueChange.bind(this)
     this.handleHide = this.handleHide.bind(this)
+    this.onPriorityChange = this.onPriorityChange.bind(this)
+
+    this.state = { isPriorityChecked: this.props.modal.todo.isPriority }
   }
 
   onSubjectChange(e) {
@@ -30,6 +33,11 @@ class EditTodoModal extends Component {
 
   onDueChange(e) {
     this.props.modal.todo.due = e
+  }
+
+  onPriorityChange(e) {
+    this.props.modal.todo.isPriority = e.target.checked
+    this.setState({ isPriorityChecked: e.target.checked })
   }
 
   handleSubmit() {
@@ -69,6 +77,9 @@ class EditTodoModal extends Component {
             <FormGroup>
               <ControlLabel>Due</ControlLabel>
               <DatePicker value={this.isoDue(todo.due)} onChange={this.onDueChange} />
+            </FormGroup>
+            <FormGroup>
+              <Checkbox checked={this.state.isPriorityChecked} onChange={this.onPriorityChange} > Priority </Checkbox>
             </FormGroup>
           </form>
         </Modal.Body>
